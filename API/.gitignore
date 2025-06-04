@@ -1,5 +1,6 @@
 # Archivos sensibles
 .env
+firebase.json
 
 # Node modules
 node_modules/
