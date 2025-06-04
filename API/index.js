@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { db } from './firebase.js';
+import router from './routes/auth.js';
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.get('/test-firebase', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
+
+app.use('/api', router);
 
 app.listen(PORT, () => {
   console.log(`API 🚀 en http://localhost:${PORT}`);
