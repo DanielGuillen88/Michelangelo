@@ -1,21 +1,24 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
+import cors from 'cors';
+
 import { db } from './firebase.js';
-import router from './routes/auth.js';
+import userRoutes from './routes/userRoutes.js';
 
-dotenv.config();
+dotenv.config(); // Cargar variables de entorno desde .env
 
-const app = express();
+const PORT = process.env.PORT || 3000; // Puerto por defecto o el especificado en .env
 
-app.use(cors());
-app.use(express.json());
+const api = express(); // Crear instancia de Express
+api.use(express.json({ strict: true, type: 'application/json' })) // Configurar Express para manejar JSON
 
-app.get('/', (req, res) => {
-  res.send('API 🚀 Michelangelo: Cowabunga! 🍕');
-});
+api.use(cors()); // Habilitar CORS para todas las rutas
 
-app.get('/test-firebase', async (req, res) => {
+// Ruta raíz para verificar que la API está funcionando
+api.get('/', (req, res) => { res.send('API 🚀 Michelangelo: Cowabunga! 🍕'); });
+
+// Ruta de prueba para verificar la conexión con Firebase
+api.get('/test-firebase', async (req, res) => {
   try {
     const docRef = db.collection('test').doc('ping');
     await docRef.set({ alive: true, timestamp: new Date().toISOString() });
@@ -26,10 +29,7 @@ app.get('/test-firebase', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+// Aqui traemos todas las rutas
+api.use('/users', userRoutes);
 
-app.use('/api', router);
-
-app.listen(PORT, () => {
-  console.log(`API 🚀 en http://localhost:${PORT}`);
-});
+api.listen(PORT, () => { console.log(`API 🚀 Cowabunga! 🍕 PORT:${PORT}`); });
