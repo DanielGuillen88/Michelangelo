@@ -25,15 +25,6 @@ class DuplicityError extends Error {
     }
 }
 
-// Error del sistema, por ejemplo, un error inesperado en el servidor
-class SystemError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = this.constructor.name;
-        this.statusCode = 500; // error servidor
-    }
-}
-
 // Error de validación, por ejemplo, al validar datos de entrada
 class ValidationError extends Error {
     constructor(message, details = []) {
@@ -75,23 +66,8 @@ export {
     ContentError,
     MatchError,
     DuplicityError,
-    SystemError,
     ValidationError,
     CredentialsError,
     NotFoundError,
     ForbiddenError
 };
-
-// Objeto de errores con acceso rápido
-const errors = {
-    ContentError,
-    MatchError,
-    DuplicityError,
-    SystemError,
-    ValidationError,
-    CredentialsError,
-    NotFoundError,
-    ForbiddenError
-};
-
-export default errors;

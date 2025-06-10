@@ -1,10 +1,13 @@
 import bcrypt from 'bcryptjs';
 import { db } from '../../firebase.js';
+import validate from 'com/validation/validateUsers.js';
+import { CredentialsError, DuplicityError } from 'com/errors/errors.js';
+
 
 const usersCollection = db.collection('users');
 
-// Función para registrar un nuevo usuario
-export default async function registerUser(req, res) {
+export default async function registerUser(req, res, next) {  // Función para registrar un nuevo usuario
+
   try {
     const { username, password, code } = req.body;
     
@@ -14,32 +17,33 @@ export default async function registerUser(req, res) {
       [process.env.ALMACEN_CODE]: 'almacen'
     };
 
-    if (!username || !password || !code) {
-      return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    try {
+      validate.username(username);
+      validate.password(password);
+      validate.code(code);
+    } catch (validationError) {
+      return next(validationError);
     }
 
-    const access = ACCESS_CODES[code];
+    const access = ACCESS_CODES[code];  // Validar el código de acceso
+
     if (!access) {
-      return res.status(400).json({ error: 'Código de acceso inválido' });
+      return next(new CredentialsError('❌ Código de acceso inválido, prueba de nuevo o solicita uno nuevo al administrador. ❌'));
     }
 
-    const existingUser = await usersCollection.where('username', '==', username).limit(1).get();
+    const existingUser = await usersCollection.where('username', '==', username).limit(1).get();  // evitar duplicados
 
     if (!existingUser.empty) {
-      return res.status(409).json({ error: 'El usuario ya existe' });
+      return next(new DuplicityError('❌ El nombre de usuario no está disponible, elige otro. ❌'));
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10); // Hashear la contraseña
 
-    await usersCollection.add({
-      username,
-      password: hashedPassword,
-      access
-    });
+    await usersCollection.add({ username, password: hashedPassword, access });  // Registrar el usuario en la base de datos
 
-    res.status(201).json({ message: 'Usuario registrado correctamente' });
+    res.status(201).json({ message: `✅ Usuario ${username} registrado correctamente! 🎉` });
   } catch (error) {
-    console.error('Error en registro:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
+      console.error('Error al registrar usuario:', error);
+      next(error);  // Pasar el error al manejador de errores
+    }
 }

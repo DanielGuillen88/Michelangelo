@@ -1,4 +1,4 @@
-import { ContentError, MatchError, DuplicityError, SystemError, ValidationError, CredentialsError, NotFoundError, ForbiddenError  } from "./errors/errors";
+import { ContentError, MatchError, DuplicityError, ValidationError, CredentialsError, NotFoundError, ForbiddenError  } from "./errors/errors";
 import { validateUsername, validatePassword, validatePasswordRepeat, validateAccessCode } from "./validation/validateUsers.js";
 
 // Objeto de errores con acceso rápido
@@ -6,7 +6,6 @@ const errors = {
     ContentError,
     MatchError,
     DuplicityError,
-    SystemError,
     ValidationError,
     CredentialsError,
     NotFoundError,
@@ -14,7 +13,7 @@ const errors = {
 };
 
 
-const validate = {
+const validateUsers = {
     username: validateUsername,
     password: validatePassword,
     passwordRepeat: validatePasswordRepeat,
@@ -23,5 +22,5 @@ const validate = {
 
 export default {
     errors,
-    validate
+    validateUsers
 };
