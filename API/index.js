@@ -4,12 +4,14 @@ import cors from 'cors';
 
 import { db } from './firebase.js';
 import userRoutes from './routes/userRoutes.js';
+import { errorHandler } from 'com/errors/errorHandler.js';
 
 dotenv.config(); // Cargar variables de entorno desde .env
 
 const PORT = process.env.PORT || 3000; // Puerto por defecto o el especificado en .env
 
 const api = express(); // Crear instancia de Express
+
 api.use(express.json({ strict: true, type: 'application/json' })) // Configurar Express para manejar JSON
 
 api.use(cors()); // Habilitar CORS para todas las rutas
@@ -31,5 +33,8 @@ api.get('/test-firebase', async (req, res) => {
 
 // Aqui traemos todas las rutas
 api.use('/users', userRoutes);
+
+// Middleware para manejar errores
+api.use(errorHandler);
 
 api.listen(PORT, () => { console.log(`API 🚀 Cowabunga! 🍕 PORT:${PORT}`); });
