@@ -1,11 +1,13 @@
 import { db } from '../../firebase.js';
 
+const usersCollection = db.collection('users');
+
 // Función para eliminar un usuario por ID
 export default async function deleteUserId(req, res) {
   try {
     const { id } = req.params;
 
-    const userRef = db.collection('users').doc(id);
+    const userRef = usersCollection.doc(id);
     const doc = await userRef.get();
 
     if (!doc.exists) {

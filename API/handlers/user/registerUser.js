@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { db } from '../../firebase.js';
 
+const usersCollection = db.collection('users');
+
 // Función para registrar un nuevo usuario
 export default async function registerUser(req, res) {
   try {
@@ -21,10 +23,7 @@ export default async function registerUser(req, res) {
       return res.status(400).json({ error: 'Código de acceso inválido' });
     }
 
-    const existingUser = await db.collection('users')
-      .where('username', '==', username)
-      .limit(1)
-      .get();
+    const existingUser = await usersCollection.where('username', '==', username).limit(1).get();
 
     if (!existingUser.empty) {
       return res.status(409).json({ error: 'El usuario ya existe' });
@@ -32,7 +31,7 @@ export default async function registerUser(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await db.collection('users').add({
+    await usersCollection.add({
       username,
       password: hashedPassword,
       access

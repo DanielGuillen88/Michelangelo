@@ -1,5 +1,7 @@
 import { db } from '../../firebase.js';
 
+const usersCollection = db.collection('users');
+
 // función para eliminar un usuario por username
 export default async function deleteUser(req, res) {    
 
@@ -11,18 +13,14 @@ export default async function deleteUser(req, res) {
       }
   
       // Buscar usuario
-      const userSnapshot = await db
-        .collection('users')
-        .where('username', '==', username)
-        .limit(1)
-        .get();
+      const userSnapshot = await usersCollection.where('username', '==', username).limit(1).get();
   
       if (userSnapshot.empty) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
       }
   
       const userDoc = userSnapshot.docs[0];
-      await db.collection('users').doc(userDoc.id).delete();
+      await usersCollection.doc(userDoc.id).delete();
   
       res.status(200).json({ message: `Usuario '${username}' eliminado correctamente` });
     } catch (error) {

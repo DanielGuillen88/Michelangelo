@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../../firebase.js';
 
+const usersCollection = db.collection('users');
+
 // Función para iniciar sesión de un usuario
 export default async function loginUser(req, res) {
   try {
@@ -11,10 +13,7 @@ export default async function loginUser(req, res) {
       return res.status(400).json({ error: 'Faltan credenciales' });
     }
 
-    const userSnapshot = await db.collection('users')
-      .where('username', '==', username)
-      .limit(1)
-      .get();
+    const userSnapshot = await usersCollection.where('username', '==', username).limit(1).get();
 
     if (userSnapshot.empty) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
