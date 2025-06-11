@@ -1,30 +1,36 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { db } from '../../firebase.js';
+import validate from 'com/validation/validateUsers.js';
+import { ContentError, CredentialsError } from 'com/errors/errors.js';
 
 const usersCollection = db.collection('users');
 
-// Función para iniciar sesión de un usuario
-export default async function loginUser(req, res) {
+export default async function loginUser(req, res, next) { // Función para iniciar sesión de un usuario
   try {
     const { username, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Faltan credenciales' });
+    if (!username){
+      return next(new ContentError('❌ Nombre de usuario requerido ❌'))
     }
 
+    if (!password){
+      return next(new ContentError('❌ Contraseña de usuario requerida ❌'))
+    }
+
+    // usuario registrado?
     const userSnapshot = await usersCollection.where('username', '==', username).limit(1).get();
 
     if (userSnapshot.empty) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+      return next(new CredentialsError('❌ Nombre de usuario incorrecto ❌'));
     }
 
     const userDoc = userSnapshot.docs[0];
     const userData = userDoc.data();
-
+    // comparar contraseña introducida con  almacenada
     const validPassword = await bcrypt.compare(password, userData.password);
     if (!validPassword) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+      return next(new CredentialsError('❌ Contraseña de usuario incorrecta ❌'));
     }
 
     const token = jwt.sign(
@@ -33,9 +39,9 @@ export default async function loginUser(req, res) {
       { expiresIn: '2h' }
     );
 
-    res.json({ token, access: userData.access });
+    res.json({ token, access: userData.access, message: `👤 Usuario ${username} autenticado ✅` });
   } catch (error) {
-    console.error('Error en login:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    console.error('Error al autenticar usuario:', error);
+    next(error);  // Pasar el error al manejador de errores
   }
 }

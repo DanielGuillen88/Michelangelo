@@ -3,13 +3,15 @@
 # Make sure the API is running before executing this script.
 # Para dar permiso chmod +x test/test-register.sh
 # Usage: ./test/test-register.sh
-# Test the registration endpoint with a valid request
-#!/bin/bash
 
 echo "✅ Registramos usuario..."
 curl -X POST http://localhost:3050/users/register \
   -H "Content-Type: application/json" \
-  -d '{"username":"Prueba1","password":"testpass2","code":"ADm1nX78"}'
+  -d '{"username":"Prueba1","password":"testpass1","code":"ADm1nX78"}'
+echo "✅ Registramos usuario..."
+curl -X POST http://localhost:3050/users/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"Prueba2","password":"testpass2","code":"ADm1nX78"}'
 echo ""
 echo "❌ Provocamos error, falta code"
 curl -X POST http://localhost:3050/users/register \

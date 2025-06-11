@@ -1,28 +1,27 @@
+import { NotFoundError } from 'com/errors/errors.js';
 import { db } from '../../firebase.js';
 
 const usersCollection = db.collection('users');
 
-// función para eliminar un usuario por username
-export default async function deleteUser(req, res) {    
-
+export default async function deleteUser(req, res, next) { // función para eliminar un usuario por username
     try {
       const { username } = req.body;
-  
+
       if (!username) {
-        return res.status(400).json({ error: 'Falta el username' });
+        return next (new NotFoundError('❌ Falta el username ❌'));
       }
   
       // Buscar usuario
       const userSnapshot = await usersCollection.where('username', '==', username).limit(1).get();
   
       if (userSnapshot.empty) {
-        return res.status(404).json({ error: 'Usuario no encontrado' });
+        return next(new NotFoundError('❌ Usuario no encontrado ❌'));
       }
   
       const userDoc = userSnapshot.docs[0];
       await usersCollection.doc(userDoc.id).delete();
   
-      res.status(200).json({ message: `Usuario '${username}' eliminado correctamente` });
+      res.status(200).json({ message: `👤 Usuario '${username}' eliminado correctamente ✅` });
     } catch (error) {
       console.error('Error al eliminar usuario:', error);
       res.status(500).json({ error: 'Error interno del servidor' });
