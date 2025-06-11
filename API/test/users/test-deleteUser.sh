@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script tests the user delete endpoint of the API.
 # Make sure the API is running before executing this script.
-# Para dar permiso: chmod +x test/test-deleteUser.sh
-# Usage: ./test/test-deleteUser.sh
+# Para dar permiso: chmod +x test/users/test-deleteUser.sh
+# Usage: ./test/users/test-deleteUser.sh
 
 echo "✅ Registramos usuario..."
 curl -X POST http://localhost:3050/users/register \

@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script tests the login endpoint of the API.
 # Make sure the API is running before executing this script.
-# Para dar permiso chmod +x test/test-login.sh
-# Usage: ./test/test-login.sh
+# Para dar permiso chmod +x test/users/test-login.sh
+# Usage: ./test/users/test-login.sh
 
 echo "✅ Logeamos con testuser"
 curl -X POST http://localhost:3050/users/login \

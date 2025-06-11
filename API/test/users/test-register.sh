@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script tests the registration endpoint of the API.
 # Make sure the API is running before executing this script.
-# Para dar permiso chmod +x test/test-register.sh
-# Usage: ./test/test-register.sh
+# Para dar permiso chmod +x test/users/test-register.sh
+# Usage: ./test/users/test-register.sh
 
 echo "✅ Registramos usuario..."
 curl -X POST http://localhost:3050/users/register \

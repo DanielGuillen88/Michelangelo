@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script tests the getUsername and getAllUsernames endpoints of the API.
 # Make sure the API is running before executing this script.
-# Para dar permiso: chmod +x test/test-getUsernames.sh
-# Usage: ./test/test-getUsernames.sh
+# Para dar permiso: chmod +x test/users/test-getUsernames.sh
+# Usage: ./test/users/test-getUsernames.sh
 
 echo "✅ Registramos usuario..."
 curl -X POST http://localhost:3050/users/register \
