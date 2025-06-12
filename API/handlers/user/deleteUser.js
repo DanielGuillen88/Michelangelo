@@ -8,7 +8,7 @@ export default async function deleteUser(req, res, next) { // función para elim
       const { username } = req.body;
 
       if (!username) {
-        return next (new NotFoundError('❌ Falta el username ❌'));
+        return next(new NotFoundError('❌ Error al eliminar usuario, falta username ❌'));
       }
   
       // Buscar usuario

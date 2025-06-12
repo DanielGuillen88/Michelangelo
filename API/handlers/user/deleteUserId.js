@@ -6,6 +6,10 @@ const usersCollection = db.collection('users');
 export default async function deleteUserId(req, res, next) {
   try {// Función para eliminar un usuario por ID
     const { id } = req.params;
+  
+    if (!id) {
+      return next(new NotFoundError('❌ Error al eliminar usuario, falta id ❌'));
+    }
 
     const userRef = usersCollection.doc(id);
     const doc = await userRef.get();
