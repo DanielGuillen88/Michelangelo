@@ -26,7 +26,7 @@ export default async function createWaste( req, res, next ) { // funcion para re
 
         const locationDescription = getLocationDescription(location);
         
-        res.status(201).json({ messange: `📦 Residuo ${code} en ${locationDescription} registrado correctamente ✅` });
+        res.status(201).json({ messange: `📦 Residuo ${code} ${locationDescription} registrado correctamente ✅` });
     } catch (error) {
         console.error('Error al registrar residuo:', error);
         next(error);
