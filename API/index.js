@@ -5,6 +5,7 @@ import cors from 'cors';
 import { db } from './firebase.js';
 import userRoutes from './routes/userRoutes.js';
 import { errorHandler } from 'com/errors/errorHandler.js';
+import wasteRoutes from './routes/wasteRoutes.js';
 
 dotenv.config(); // Cargar variables de entorno desde .env
 
@@ -33,6 +34,7 @@ api.get('/test-firebase', async (req, res) => {
 
 // Aqui traemos todas las rutas
 api.use('/users', userRoutes);
+api.use('/waste', wasteRoutes);
 
 // Middleware para manejar errores
 api.use(errorHandler);
