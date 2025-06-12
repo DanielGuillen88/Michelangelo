@@ -1,5 +1,5 @@
-import { ContentError, ValidationError } from "../errors/errors"
-import { VALIDATION } from "./validationConstants";
+import { ContentError, ValidationError } from "../errors/errors.js"
+import { VALIDATION } from "./validationConstants.js";
 
 export function validateCode(code) {
     if (!code) {
@@ -69,24 +69,32 @@ export function validateLocation(location) {
         throw new ContentError('❌ La ubicación del residuo es requerida y debe ser un objeto ❌');
     }
 
-    if (typeof location.type !== 'string' || !VALIDATION.locationTypes.includes(location.type.toUpperCase())) {// almacen o salida
+    const locationType = location.type ? location.type.toUpperCase() : '';
+
+    if (typeof location.type !== 'string' || !VALIDATION.locationTypes.includes(location.type)) {// almacen o salida
 
         throw new ValidationError(`❌ El tipo de ubicación de residuo es requerido y debe ser uno de los siguientes valores: ${VALIDATION.locationTypes.join(', ')} ❌`);
     }
 
     if (locationType === 'ALMACEN') {     // 3A si es almacen, debe tener una 'area' válida
-        if (typeof location.area !== 'string' || !VALIDATION.warehouseAreas.includes(location.area.toUpperCase())) {
-            throw new ValidationError(`❌ Para residuos almacenados, se requiere un área válida. Opciones: ${VALIDATION.warehouseAreas.join(', ')} ❌`);
+        if ( !location.area ) {
+            throw new ContentError(`❌ Residuo en almacén, no olvide incluir un área válida (Opciones: ${VALIDATION.warehouseAreas.join(', ')}) ❌`);
+        }
+        if (typeof location.area !== 'string' || !VALIDATION.warehouseAreas.includes(location.area)) {
+            throw new ValidationError(`❌ Residuo en almacén, indique un área válida (Opciones: ${VALIDATION.warehouseAreas.join(', ')}) ❌`);
         }
         if (location.reference !== undefined) { // sin reference
-             throw new ValidationError(`❌ Para residuos almacenados, la propiedad 'reference' no es permitida ❌`);
+             throw new ValidationError(`❌ Para residuos en almacén, la propiedad 'reference' no es permitida ❌`);
         }
     } else if (locationType === 'SALIDA') { // 3B Si es salida, debe tener una 'reference'
+        if ( !location.reference  ) {
+            throw new ContentError(`❌ Residuo en expedición, no olvide incluir un una referencia personalizada ❌`);
+        }
         if (typeof location.reference !== 'string' || location.reference.trim() === '') {
-            throw new ValidationError('❌ Para residuos en salida, se requiere una referencia personalizada ❌');
+            throw new ValidationError('❌ Residuo en expedición, se requiere una referencia personalizada ❌');
         }
         if (location.area !== undefined) { // sin area
-            throw new ValidationError(`❌ Para residuos en salida, la propiedad 'area' no es permitida ❌`);
+            throw new ValidationError(`❌ Para residuos en expedición, la propiedad 'area' no es permitida ❌`);
         }
     } else {
         // es buena práctica un fallback
