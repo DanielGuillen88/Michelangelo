@@ -4,7 +4,7 @@ import cors from 'cors';
 
 import { db } from './firebase.js';
 import userRoutes from './routes/userRoutes.js';
-import { errorHandler } from 'com/errors/errorHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 import wasteRoutes from './routes/wasteRoutes.js';
 
 dotenv.config(); // Cargar variables de entorno desde .env
