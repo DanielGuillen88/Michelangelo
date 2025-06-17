@@ -40,7 +40,7 @@ class CredentialsError extends Error {
     constructor(message) {
         super(message);
         this.name = this.constructor.name;
-        this.statusCode = 401; // acceso no autorizado por credenciales inválidas
+        this.statusCode = 400; // acceso no autorizado por credenciales inválidas
     }
 }
 
@@ -62,6 +62,15 @@ class ForbiddenError extends Error {
     }
 }
 
+// Error del sistema, por ejemplo, errores internos del servidor o problemas de red
+class SystemError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = this.constructor.name;
+        this.statusCode = 500; // error interno del servidor
+    }
+}
+
 export {
     ContentError,
     MatchError,
@@ -69,5 +78,6 @@ export {
     ValidationError,
     CredentialsError,
     NotFoundError,
-    ForbiddenError
+    ForbiddenError,
+    SystemError
 };

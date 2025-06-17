@@ -1,4 +1,4 @@
-import { ContentError, MatchError, DuplicityError, ValidationError, CredentialsError, NotFoundError, ForbiddenError  } from "./errors/errors";
+import { ContentError, MatchError, DuplicityError, ValidationError, CredentialsError, NotFoundError, ForbiddenError, SystemError  } from "./errors/errors";
 import { validateUsername, validatePassword, validatePasswordRepeat, validateAccessCode } from "./validation/validateUsers.js";
 
 // Objeto de errores con acceso rápido
@@ -9,7 +9,8 @@ const errors = {
     ValidationError,
     CredentialsError,
     NotFoundError,
-    ForbiddenError
+    ForbiddenError,
+    SystemError
 };
 
 
