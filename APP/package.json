@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "bootstrap": "^5.3.6",
     "com": "file:../com",
     "react": "^19.1.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
     "react-select": "^5.10.1"
