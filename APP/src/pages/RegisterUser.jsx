@@ -46,9 +46,7 @@ export default function RegisterUser() {
                 value={code} setValue={setCode}
             />   
             {/* Botón de Envío */}
-            <Button variant="success" type="submit" className="w-100">
-              Registrarse
-            </Button>
+            <Button variant="success" type="submit" className="w-100">Registrarse</Button>
 
           </Form>
         {/* Componente Alert para mostrar mensajes al usuario */}
