@@ -1,7 +1,7 @@
 import validate from 'com/validation/validateUsers.js';
 import loginUser from '../../services/users/loginUser.js';
 
-export default async function handleLoginSubmit(event, setMessage, setMessageType) {
+export default async function handleLoginSubmit(event, setMessage, setMessageType, navigate) {
     event.preventDefault();
 
     const form = event.target;
@@ -22,9 +22,9 @@ export default async function handleLoginSubmit(event, setMessage, setMessageTyp
             setMessage('Redirigiendo a la página de gestión de residuos...');
             setMessageType('info'); 
 
-            // setTimeout(() => {
-            //     // navigate('/login'); // Esto estaría aquí cuando se implemente navigate
-            // }, 3000); 
+            setTimeout(() => {
+                navigate('/login'); // Esto estaría aquí cuando se implemente navigate
+            }, 3000); 
 
         }, 3000);
 
@@ -32,9 +32,9 @@ export default async function handleLoginSubmit(event, setMessage, setMessageTyp
         setMessage(error.message);
         setMessageType('danger');
 
-        // setTimeout(() => {
-        //     setMessage('');
-        //     setMessageType('');
-        // }, 5000); 
+        setTimeout(() => {
+            setMessage('');
+            setMessageType('');
+        }, 5000); 
     }
 }
