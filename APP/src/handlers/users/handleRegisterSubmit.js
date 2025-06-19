@@ -1,7 +1,7 @@
 import registerUser from '../../services/users/registerUser.js';
 import validate from 'com/validation/validateUsers.js';
 
-export default async function handleRegisterSubmit(event, setMessage, setMessageType) {
+export default async function handleRegisterSubmit(event, setMessage, setMessageType, navigate) {
     event.preventDefault();
 
     const form = event.target;
@@ -26,9 +26,9 @@ export default async function handleRegisterSubmit(event, setMessage, setMessage
             setMessage('Redirigiendo a la página de identificación...');
             setMessageType('info'); 
 
-            // setTimeout(() => {
-            //     // navigate('/login'); // Esto estaría aquí cuando se implemente navigate
-            // }, 3000); 
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000); 
 
         }, 3000);
 
@@ -36,9 +36,9 @@ export default async function handleRegisterSubmit(event, setMessage, setMessage
         setMessage(error.message);
         setMessageType('danger');
 
-        // setTimeout(() => {
-        //     setMessage('');
-        //     setMessageType('');
-        // }, 5000); 
+        setTimeout(() => {
+            setMessage('');
+            setMessageType('');
+        }, 5000); 
     }
 }

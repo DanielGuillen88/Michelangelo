@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Container, Form, Button } from 'react-bootstrap';
 import InputField from '../components/InputField.jsx';
 import handleRegisterSubmit from '../handlers/users/handleRegisterSubmit.js';
@@ -13,14 +13,14 @@ export default function RegisterUser() {
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState('');
 
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     return(
         <Container className="mt-5 d-flex justify-content-center">
         <div className="p-4 border rounded shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
           <h2 className="mb-4 text-center">Registro de Usuario</h2>
 
-          <Form onSubmit={(event) => handleRegisterSubmit(event, setMessage, setMessageType)}>
+          <Form onSubmit={(event) => handleRegisterSubmit(event, setMessage, setMessageType, navigate)}>
             {/* Campo: Nombre de Usuario */}
             <InputField
                 label= "Nombre de Usuario" name="username"
@@ -53,6 +53,9 @@ export default function RegisterUser() {
         <h2 className={`alert alert-${messageType} mt-3 mb-0 p-1 text-center`}>
             {message}
         </h2>
+        <button className='btn btn-outline-secondary mt-3 w-100' onClick={() => navigate('/login')}>
+            Volver a la página de identificación
+        </button>
         </div>
       </Container>
     )
