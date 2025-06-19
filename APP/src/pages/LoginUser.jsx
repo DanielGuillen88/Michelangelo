@@ -39,6 +39,9 @@ export default function LoginUser() {
         <h2 className={`alert alert-${messageType} mt-3 mb-0 p-1 text-center`}>
             {message}
         </h2>
+        <button className='btn btn-outline-secondary mt-3 w-100' onClick={() => navigate('/registro')}>
+            Volver a la página de registro
+        </button>
         </div>
       </Container>
     )

@@ -23,7 +23,7 @@ export default async function handleLoginSubmit(event, setMessage, setMessageTyp
             setMessageType('info'); 
 
             setTimeout(() => {
-                navigate('/login'); // Esto estaría aquí cuando se implemente navigate
+                navigate('/dashboard', { replace: true }); // 'replace: true' para no dejar la página protegida en el historial
             }, 3000); 
 
         }, 3000);

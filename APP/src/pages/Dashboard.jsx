@@ -14,7 +14,7 @@ export default function Dashboard() {
     }
 
   return (
-    <Container className="text-center mt-5">
+    <Container className="mt-5 d-flex justify-content-center flex-column align-items-center">
 
         <button className='btn btn-outline-dark p-3 mb-2' disabled>
             <Spinner className='py-1' animation="grow" variant="light" role="status">🍕</Spinner>
