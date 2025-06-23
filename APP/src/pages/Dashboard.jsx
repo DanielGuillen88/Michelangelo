@@ -22,6 +22,9 @@ export default function Dashboard() {
             <Spinner className='py-1' animation="grow" variant="light" role="status">🍕</Spinner>
         </button>
 
+        <button className='btn btn-outline-success mb-3' onClick={() => navigate('/wastestore')}>
+            Ir a la gestión de residuos
+        </button>
         <button className='btn btn-outline-warning' onClick={deleteToken}>⚠️ Eliminar token ⚠️</button>
 
     </Container>

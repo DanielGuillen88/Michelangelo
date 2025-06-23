@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import LoginUser from './pages/LoginUser';
 import RegisterUser from './pages/RegisterUser';
 import AuthGuard from './components/AuthGuard';
+import WasteStore from './pages/WasteStore';
 
 
 export default function App() {
@@ -23,11 +24,8 @@ export default function App() {
           <Route path="/registro" element={<RegisterUser />} />
 
           {/* Aqui pondremos las rutas PROTEGIDAS */}
-          <Route path="/dashboard" element={
-            <AuthGuard>
-              <Dashboard />
-            </AuthGuard>
-          } />
+          <Route path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
+          <Route path="/wastestore" element={<AuthGuard><WasteStore /></AuthGuard>} />
 
           {/* futura ruta para manejar URLs no encontradas (404) */}
           {/* <Route path="*" element={<h2>404 - Página No Encontrada</h2>} /> */}
