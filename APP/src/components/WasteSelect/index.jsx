@@ -32,8 +32,8 @@ export default function WasteSelect() {
     <Container className="mt-4">
       <Row className="justify-content-md-center">
         <Col md={8}>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="waste-select">Seleccionar residuo:</Form.Label>
+          <Form.Group className="">
+            {/* <Form.Label htmlFor="waste-select">Seleccionar residuo:</Form.Label> */}
             <Select
                 required
                 id="waste-select"
