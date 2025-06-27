@@ -3,6 +3,7 @@ import InputField from "../components/InputField";
 import WasteSelect from "../components/WasteSelect";
 import { useState } from 'react';
 import WasteStatus from "../components/WasteStatus";
+import WarehouseAreaSelect from "../components/WarehouseAreaSelect";
 
 export default function WasteStore() {
 
@@ -14,6 +15,7 @@ export default function WasteStore() {
       <ContainerSelect />
       <InputField name="weight" type="number" placeholder="Peso en kg" value={weight} setValue={setWeight} />
       <WasteStatus />
+      <WarehouseAreaSelect />
       
       <p>Esta página está en construcción. ¡Pronto podrás gestionar tus residuos aquí!</p>
     </div>
