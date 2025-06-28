@@ -1,13 +1,18 @@
 import { useState } from 'react';
 
-export default function WarehouseAreaSelect() {
+export default function WarehouseAreaSelect({ onAreaChange }) {
 
-    const warehouseAreas = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'];
+  const warehouseAreas = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'];
 
   const [selectedArea, setSelectedArea] = useState(null);
+
   const handleAreaClick = (area) => {
     setSelectedArea(area);
     console.log(`Área seleccionada: ${area}`);
+
+    if (onAreaChange) {
+      onAreaChange(area);
+  }
   };
 
   return (
@@ -22,7 +27,6 @@ export default function WarehouseAreaSelect() {
           <button
             key={area}
             type="button"
-            // className="btn btn-outline-primary" // Botones con borde azul
             className={`btn ${selectedArea === area ? 'btn-primary' : 'btn-outline-primary'} rounded-0`} // Para selección
             onClick={() => handleAreaClick(area)} // Para selección
           >

@@ -4,20 +4,88 @@ import WasteSelect from "../components/WasteSelect";
 import { useState } from 'react';
 import WasteStatus from "../components/WasteStatus";
 import WarehouseAreaSelect from "../components/WarehouseAreaSelect";
+import { Card, Container, Button } from "react-bootstrap";
 
 export default function WasteStore() {
 
+  const [selectedWaste, setSelectedWaste] = useState(null);
+  const [selectedContainer, setSelectedContainer] = useState(null);
+  const [wasteStatus, setWasteStatus] = useState('CORRECTO');
+  const [selectedArea, setSelectedArea] = useState(null);
   const [weight, setWeight] = useState('');
 
+
+  const handleWasteChange = (selectedWaste) => {
+    setSelectedWaste(selectedWaste);
+    console.log("Residuo seleccionado:", selectedWaste);
+  };
+
+  const handleContainerChange = (selectedContainer) => {
+    setSelectedContainer(selectedContainer);
+    console.log("Contenedor seleccionado:", selectedContainer);
+  };
+
+  const handleStatusChange = (wasteStatus) => {
+    setWasteStatus(wasteStatus);
+    console.log("Estado del residuo:", wasteStatus);
+  };
+
+  const handleAreaChange = (selectedArea) => {
+    setSelectedArea(selectedArea);
+    console.log("Área seleccionada:", selectedArea);
+  };
+
+  const bgColorForm = selectedContainer ? `bg-${selectedContainer.color}-subtle` : 'bg-light';
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!selectedWaste || !selectedContainer || !weight || !wasteStatus || !selectedArea) {
+      alert("Por favor, completa todos los campos del formulario.");
+      console.log("Formulario incompleto:", {
+        selectedWaste,
+        selectedContainer,
+        weight,
+        wasteStatus,
+        selectedArea
+      });
+      return;
+    }
+
+    const formData = {
+      code: selectedWaste.code,
+      name: selectedWaste.name,
+      container: selectedContainer.value,
+      weight: parseFloat(weight),
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+      status: wasteStatus,
+      location: selectedArea
+    };
+    console.log("Datos del formulario:", formData);
+  };
+
   return (
-    <div className="mt-5 d-flex justify-content-center flex-column align-items-center">
-      <WasteSelect />
-      <ContainerSelect />
-      <InputField name="weight" type="number" placeholder="Peso en kg" value={weight} setValue={setWeight} />
-      <WasteStatus />
-      <WarehouseAreaSelect />
-      
-      <p>Esta página está en construcción. ¡Pronto podrás gestionar tus residuos aquí!</p>
-    </div>
+<Container className="mt-5"> {/* Usamos Container para el centrado general */}
+      <Card className={`${bgColorForm}`}> {/* El Card principal que cambia de color */}
+        <Card.Header as="h5" className="text-center">Formulario de Almacenamiento de Residuos</Card.Header>
+        <Card.Body>
+          <div className="d-flex justify-content-center flex-column align-items-center gap-3"> {/* gap-3 añade espacio entre los hijos */}
+          
+          <WasteSelect onWasteChange={handleWasteChange} />
+
+          <ContainerSelect onContainerChange={handleContainerChange} />
+
+          <InputField name="weight" type="number" placeholder="Peso en kg" value={weight} setValue={setWeight} />
+
+          <WasteStatus onStatusChange={handleStatusChange} />
+
+          <WarehouseAreaSelect onAreaSelect={handleAreaChange} />
+          
+          <Button variant="primary" onClick={handleSubmit} className="mt-4 w-50">Enviar</Button>      
+      </div>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 }

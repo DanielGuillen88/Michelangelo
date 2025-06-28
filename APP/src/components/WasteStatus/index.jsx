@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function WasteStatus() {
+export default function WasteStatus({ onStatusChange }) {
 
   const buttonStates = [
     { value: 'CORRECTO', variant: 'success' },
@@ -8,15 +8,19 @@ export default function WasteStatus() {
     { value: 'ESTANCADO', variant: 'danger' },
   ];
 
-  const [status, setStatus] = useState(0);
+  const [statusIndex, setStatusIndex] = useState(0);
 
   // Función que se ejecuta cada vez que se hace clic en el botón.
   const handleClick = () => {
-    const indexButtonStates = (status + 1) % buttonStates.length;
-    setStatus(indexButtonStates);
+    const indexButtonStates = (statusIndex + 1) % buttonStates.length;
+    setStatusIndex(indexButtonStates);
+
+    if (onStatusChange) {
+      onStatusChange(buttonStates[indexButtonStates].value);
+    }
   };
 
-  const currentState = buttonStates[status];
+  const currentState = buttonStates[statusIndex];
 
   console.log(`Estado actual: ${currentState.value}`);
 
