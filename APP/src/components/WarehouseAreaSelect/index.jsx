@@ -8,7 +8,6 @@ export default function WarehouseAreaSelect({ onAreaChange }) {
 
   const handleAreaClick = (area) => {
     setSelectedArea(area);
-    console.log(`Área seleccionada: ${area}`);
 
     if (onAreaChange) {
       onAreaChange(area);

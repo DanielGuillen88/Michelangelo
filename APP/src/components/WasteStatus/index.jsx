@@ -22,8 +22,6 @@ export default function WasteStatus({ onStatusChange }) {
 
   const currentState = buttonStates[statusIndex];
 
-  console.log(`Estado actual: ${currentState.value}`);
-
   return (
     <button className={`btn btn-${currentState.variant}`} onClick={handleClick}>
       {currentState.value}

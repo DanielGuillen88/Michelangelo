@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import Select from 'react-select';
 import { Form, Row, Col } from 'react-bootstrap';
+import Select from 'react-select';
 import data from './wasteList.json';
 
 export default function WasteSelect({ onWasteChange }) {
@@ -19,35 +19,29 @@ export default function WasteSelect({ onWasteChange }) {
 
     const handleWasteSelect = (selectedOption) => {
         setSelectedWaste(selectedOption);
-
-        if (selectedOption) {
-            const { code, name } = selectedOption;
-            console.log(`Residuo seleccionado: ${code} - ${name}`);
-        } else {
-            console.log('No se ha seleccionado ningún residuo');
-        }
         if (onWasteChange) {
             onWasteChange(selectedOption);
         }
     };
 
   return (
-    <Row className="h-100 align-items-center">
-          <Col className="mx-auto">
-              <Form.Group className="mb-3">
-                  <Select
-                      required
-                      id="waste-select"
-                      options={wasteOptions} // Usamos las opciones formateadas
-                      value={selectedWaste} // El estado que guarda la opción seleccionada
-                      placeholder="Buscar por código o nombre de residuo"
-                      noOptionsMessage={() => "No se encontraron opciones"}
-                      isClearable={true}
-                      isSearchable={true}
-                      onChange={handleWasteSelect}
-                  />
-              </Form.Group>
-          </Col>
+    <Row className="w-100 mb-3 text-center">
+        <Col className="p-0">
+            <Form.Group className="w-100">
+                <Select required id="waste-select"
+                options={wasteOptions} value={selectedWaste}
+                placeholder="SELECCIONA O BUSCA UN RESIDUO"
+                noOptionsMessage={() => "No se encontraron opciones"}
+                isClearable={true} isSearchable={true}
+                onChange={handleWasteSelect}
+                styles={{
+                container: (base) => ({ ...base, width: '100%', }),
+                control: (base) => ({ ...base, width: '100%', border: 'none', boxShadow: 'none',
+                    backgroundColor: 'transparent', '&:hover': { border: 'none', }, }),
+                menu: (base) => ({ ...base, border: 'none', boxShadow: 'none', }), }}
+                />
+            </Form.Group>
+        </Col>
     </Row>
   );
 };

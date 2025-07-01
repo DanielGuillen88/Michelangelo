@@ -66,11 +66,11 @@ export default function WasteStore() {
   };
 
   return (
-<Container className="mt-5"> {/* Usamos Container para el centrado general */}
-      <Card className={`${bgColorForm}`}> {/* El Card principal que cambia de color */}
-        <Card.Header as="h5" className="text-center">Formulario de Almacenamiento de Residuos</Card.Header>
+<Container className="">
+      <Card className={`${bgColorForm}`}>
+        {/* <Card.Header as="h5" className="text-center">Formulario de Almacenamiento de Residuos</Card.Header> */}
         <Card.Body>
-          <div className="d-flex justify-content-center flex-column align-items-center gap-3"> {/* gap-3 añade espacio entre los hijos */}
+          <div className="d-flex justify-content-center flex-column align-items-center">
           
           <WasteSelect onWasteChange={handleWasteChange} />
 
@@ -80,7 +80,7 @@ export default function WasteStore() {
 
           <WasteStatus onStatusChange={handleStatusChange} />
 
-          <WarehouseAreaSelect onAreaSelect={handleAreaChange} />
+          <WarehouseAreaSelect onAreaChange={handleAreaChange} />
           
           <Button variant="primary" onClick={handleSubmit} className="mt-4 w-50">Enviar</Button>      
       </div>
