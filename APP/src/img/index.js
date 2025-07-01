@@ -7,6 +7,7 @@ import grg from './grg.png'
 import bigbag from './bigbag.png'
 import b200 from './b200.png'
 import bm200 from './bm200.png'
+import otro from './otro.png'
 
 export {
     logo,
@@ -15,5 +16,6 @@ export {
     grg,
     bigbag,
     b200, 
-    bm200
+    bm200,
+    otro
 }
