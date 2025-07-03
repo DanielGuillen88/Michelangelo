@@ -75,7 +75,7 @@ export default function WasteStore() {
 
           <ContainerSelect onContainerChange={handleContainerChange} />
 
-          <InputField name="weight" type="number" placeholder="Peso en kg" value={weight} setValue={setWeight} />
+          <InputField className="no-border-no-bg-input text-center" name="weight" type="number" placeholder=" PESO EN" value={weight} setValue={setWeight} unit="KG"/>
 
           <WasteStatus onStatusChange={handleStatusChange} />
 

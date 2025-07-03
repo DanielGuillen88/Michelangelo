@@ -1,0 +1,17 @@
+.no-border-no-bg-input {
+    border: none !important;
+    border-bottom: 1px solid lightgray !important;
+    background-color: transparent !important; 
+    box-shadow: none !important; 
+    color: inherit; 
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.no-border-no-bg-input:focus {
+    border: none !important;
+    border-bottom: 2px solid lightslategray !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
