@@ -66,10 +66,9 @@ export default function WasteStore() {
   };
 
   return (
-<Container className="">
+<Container className="p-1">
       <Card className={`${bgColorForm}`}>
-        {/* <Card.Header as="h5" className="text-center">Formulario de Almacenamiento de Residuos</Card.Header> */}
-        <Card.Body>
+        <Card.Body className="p-1">
           <div className="d-flex justify-content-center flex-column align-items-center">
           
           <WasteSelect onWasteChange={handleWasteChange} />

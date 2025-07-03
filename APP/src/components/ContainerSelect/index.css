@@ -1,0 +1,12 @@
+.container-img-size-responsive {
+    max-width: 70px;
+    max-height: 70px;
+    object-fit: contain;
+}
+
+@media (min-width: 576px) { /* sm breakpoint: A partir de aquí la imagen puede ser más grande */
+    .container-img-size-responsive {
+        max-width: 100px;
+        max-height: 100px;
+    }
+}

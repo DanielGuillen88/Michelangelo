@@ -25,7 +25,7 @@ export default function WasteSelect({ onWasteChange }) {
     };
 
   return (
-    <Row className="w-100 mb-3 text-center">
+    <Row className="w-100 text-center">
         <Col className="p-0">
             <Form.Group className="w-100">
                 <Select required id="waste-select"
