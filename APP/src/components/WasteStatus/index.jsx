@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from "react-bootstrap";
 
 export default function WasteStatus({ onStatusChange }) {
 
@@ -23,8 +24,12 @@ export default function WasteStatus({ onStatusChange }) {
   const currentState = buttonStates[statusIndex];
 
   return (
-    <button className={`btn btn-${currentState.variant}`} onClick={handleClick}>
+    <Button
+      className={`d-flex w-100 rounded-bottom-left align-items-center justify-content-center text-center`} // Centra contenido flex y texto
+      variant={currentState.variant}
+      onClick={handleClick}
+    >
       {currentState.value}
-    </button>
+    </Button>
   );
 }
