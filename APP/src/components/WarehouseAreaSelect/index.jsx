@@ -1,38 +1,67 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
+
+// Mapeo de series a sus posibles valores (FUERA DEL COMPONENTE)
+const areaSeriesMap = {
+  'A': ['A1', 'A2', 'A3', 'A4'],
+  'B': ['B1', 'B2', 'B3', 'B4'],
+  'C': ['C1', 'C2', 'C3', 'C4']
+};
 
 export default function WarehouseAreaSelect({ onAreaChange }) {
 
-  const warehouseAreas = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'];
-
+  const [currentSeries, setCurrentSeries] = useState(null);
+  const [seriesIndex, setSeriesIndex] = useState(0);
   const [selectedArea, setSelectedArea] = useState(null);
 
-  const handleAreaClick = (area) => {
-    setSelectedArea(area);
+  useEffect(() => {
+    if (currentSeries) {
+      const possibleAreas = areaSeriesMap[currentSeries];
+      const newArea = possibleAreas[seriesIndex % possibleAreas.length];
+      setSelectedArea(newArea);
+      if (onAreaChange) {
+        onAreaChange(newArea);
+      }
+    } else {
+      setSelectedArea(null);
+      if (onAreaChange) {
+        onAreaChange(null);
+      }
+    }
+  }, [currentSeries, seriesIndex, onAreaChange]);
 
-    if (onAreaChange) {
-      onAreaChange(area);
-  }
+  const handleSeriesClick = (series) => {
+    if (series === currentSeries) {
+      const possibleAreas = areaSeriesMap[series];
+      setSeriesIndex((prevIndex) => (prevIndex + 1) % possibleAreas.length);
+    } else {
+      setCurrentSeries(series);
+      setSeriesIndex(0);
+    }
   };
 
   return (
-    <div className="">
-      <div
-        className="d-grid gap-0"
-        style={{ gridTemplateColumns: 'repeat(3, 1fr)' }} // Define 3 columnas de igual ancho
-        role="group"
-        aria-label="Selección de Área de Almacén"
-      >
-        {warehouseAreas.map((area) => (
-          <button
-            key={area}
+    
+    <Row className="w-100 justify-content-center"> 
+      <Col xs={12} className="p-0">
+      <ButtonGroup className="d-flex w-100" role="group" aria-label="Selección de Serie de Área">
+        {Object.keys(areaSeriesMap).map((series) => (
+          <Button
+            key={series}
             type="button"
-            className={`btn ${selectedArea === area ? 'btn-primary' : 'btn-outline-primary'} rounded-0`} // Para selección
-            onClick={() => handleAreaClick(area)} // Para selección
+            variant={currentSeries === series ? 'secondary' : 'light'}
+            onClick={() => handleSeriesClick(series)}
+            className="px-3 rounded-0 flex-grow-1" 
+            style={{ fontWeight: 'bold' }}
           >
-            {area}
-          </button>
+            {series}
+            {currentSeries === series && selectedArea && (
+              <span className="ms-2">{selectedArea.slice(1)}</span>
+            )}
+          </Button>
         ))}
-      </div>
-    </div>
+      </ButtonGroup>
+      </Col>
+    </Row>
   );
 }
