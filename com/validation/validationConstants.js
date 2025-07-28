@@ -15,5 +15,5 @@ export const VALIDATION = {
     containers: ['PALET', 'GRG', 'BIGBAG', 'B200', 'B<200', 'OTRO'],
     status: ['CORRECTO', 'REVISAR', 'ESTANCADO'], 
     locationTypes: ['ALMACEN', 'SALIDA'],
-    warehouseAreas: ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3'],
+    warehouseAreas: ['A1', 'A2', 'A3','A4', 'B1', 'B2', 'B3','B4', 'C1', 'C2', 'C3', 'C4'],
   };
