@@ -21,7 +21,7 @@ export default function ContainerSelect({ onContainerChange}) {
     };
 
     return (
-        <Row className="w-100">
+        <Row className="w-100 justify-content-center">
             <Col xs={12} className="p-0">
                 <ButtonGroup className="d-flex flex-wrap w-100" role="group" aria-label="Seleccionar tipo de contenedor">
                     {containerOptions.map((option) => (
