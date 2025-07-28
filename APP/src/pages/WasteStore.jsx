@@ -4,7 +4,7 @@ import WasteSelect from "../components/WasteSelect";
 import { useState } from 'react';
 import WasteStatus from "../components/WasteStatus";
 import WarehouseAreaSelect from "../components/WarehouseAreaSelect";
-import { Card, Container, Button } from "react-bootstrap";
+import { Card, Container, Button, Row, Col } from "react-bootstrap";
 
 export default function WasteStore() {
 
@@ -36,6 +36,7 @@ export default function WasteStore() {
   };
 
   const bgColorForm = selectedContainer ? `bg-${selectedContainer.color}-subtle` : 'bg-light';
+  const colorBorder = selectedContainer ? `${selectedContainer.color}-subtle` : 'light-subtle';
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -67,22 +68,43 @@ export default function WasteStore() {
 
   return (
 <Container className="p-1">
-      <Card className={`${bgColorForm}`}>
-        <Card.Body className="p-1">
-          <div className="d-flex justify-content-center flex-column align-items-center">
-          
-          <WasteSelect onWasteChange={handleWasteChange} />
+      <Card className={`border-3 border-${colorBorder} ${bgColorForm}`}>
+        <Card.Body className="p-0">
+            <div className="d-flex justify-content-center flex-column align-items-center">
+                <WasteSelect onWasteChange={handleWasteChange} />
 
-          <ContainerSelect onContainerChange={handleContainerChange} />
+                <ContainerSelect onContainerChange={handleContainerChange} />
+              
+                <WarehouseAreaSelect onAreaChange={handleAreaChange} />
+                
+              <Col xs={12} className={`border-top border-3 border-${colorBorder}`}>
+                <Row className="g-0 align-items-center">
 
-          <InputField className="no-border-no-bg-input text-center" name="weight" type="number" placeholder=" PESO EN" value={weight} setValue={setWeight} unit="KG"/>
+                  <Col xs={4} className="p-0">
+                    <WasteStatus onStatusChange={handleStatusChange} />
+                  </Col>
 
-          <WasteStatus onStatusChange={handleStatusChange} />
+                  <Col xs={5} className="p-0" >
+                    <InputField
+                      className="no-border-no-bg-input text-center "
+                      name="weight"
+                      type="number"
+                      placeholder=" PESO EN"
+                      value={weight}
+                      setValue={setWeight}
+                      unit="KG"
+                    />
+                  </Col>
 
-          <WarehouseAreaSelect onAreaChange={handleAreaChange} />
-          
-          <Button variant="primary" onClick={handleSubmit} className="mt-4 w-50">Enviar</Button>      
-      </div>
+                  <Col xs={3} className="p-0">
+                    <div className="d-grid">
+                      <Button variant="primary" onClick={handleSubmit} className="w-100 rounded-bottom-right">Enviar</Button>
+                    </div>  
+                  </Col>
+                </Row>
+              </Col>
+
+            </div>
         </Card.Body>
       </Card>
     </Container>
