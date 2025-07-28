@@ -1,9 +1,10 @@
+/* Estilos para el input principal */
 .no-border-no-bg-input {
     border: none !important;
-    border-bottom: 1px solid lightgray !important;
-    background-color: transparent !important; 
-    box-shadow: none !important; 
-    color: inherit; 
+    /* border-bottom: 1px solid lightgray !important; */
+    box-shadow: none !important;
+    color: inherit;
+    border-radius: 0 !important;
     padding-left: 0;
     padding-right: 0;
 }
@@ -11,7 +12,21 @@
 .no-border-no-bg-input:focus {
     border: none !important;
     border-bottom: 2px solid lightslategray !important;
-    background-color: transparent !important;
     box-shadow: none !important;
     outline: 0 !important;
+}
+
+/* --- Nueva clase para el InputGroup.Text (unit) --- */
+.no-border-no-bg-unit {
+    background-color: lightgray;
+
+    border: none !important; 
+    /* border-bottom: 1px solid lightgray !important; */
+    border-radius: 0 !important; 
+    color: inherit;
+}
+
+/* Opcional: Asegúrate de que el borde inferior del unit coincida con el del input al enfocar */
+.no-border-no-bg-input:focus + .no-border-no-bg-unit {
+    border-bottom: 2px solid lightslategray !important;
 }
