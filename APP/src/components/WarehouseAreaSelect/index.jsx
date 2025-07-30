@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 
-// Mapeo de series a sus posibles valores (FUERA DEL COMPONENTE)
 const areaSeriesMap = {
   'A': ['A1', 'A2', 'A3', 'A4'],
   'B': ['B1', 'B2', 'B3', 'B4'],
@@ -15,20 +14,27 @@ export default function WarehouseAreaSelect({ onAreaChange }) {
   const [selectedArea, setSelectedArea] = useState(null);
 
   useEffect(() => {
+    let location = null;
     if (currentSeries) {
       const possibleAreas = areaSeriesMap[currentSeries];
-      const newArea = possibleAreas[seriesIndex % possibleAreas.length];
-      setSelectedArea(newArea);
-      if (onAreaChange) {
-        onAreaChange(newArea);
-      }
+      const selectedArea = possibleAreas[seriesIndex % possibleAreas.length];
+      setSelectedArea(selectedArea);
+
+      // --- CREAMOS EL OBJETO LOCATION ---
+      location = {
+        area: selectedArea,
+        type: "ALMACEN" // siempre ALMACEN
+      };
     } else {
       setSelectedArea(null);
-      if (onAreaChange) {
-        onAreaChange(null);
-      }
+    }
+
+    // Llamamos a onAreaChange con el objeto location o null
+    if (onAreaChange) {
+      onAreaChange(location);
     }
   }, [currentSeries, seriesIndex, onAreaChange]);
+
 
   const handleSeriesClick = (series) => {
     if (series === currentSeries) {
