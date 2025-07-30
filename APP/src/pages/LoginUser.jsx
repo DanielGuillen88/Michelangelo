@@ -32,7 +32,7 @@ export default function LoginUser() {
                 value={password} setValue={setPassword}
             />   
             {/* Botón de Envío */}
-            <Button variant="success" type="submit" className="w-100">Iniciar Sesión</Button>
+            <Button variant="success" type="submit" className="w-100 mt-3">Iniciar Sesión</Button>
 
           </Form>
         {/* Componente Alert para mostrar mensajes al usuario */}
