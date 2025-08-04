@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 import WasteStatus from "../components/WasteStatus";
 import WarehouseAreaSelect from "../components/WarehouseAreaSelect";
 import { Card, Container, Button, Row, Col } from "react-bootstrap";
-
+import createNewStoredWaste from "../services/waste/createNewStoredWaste.js";
 import validate from 'com/validation/validateWaste.js';
 
 export default function WasteStore() {
@@ -39,7 +39,7 @@ export default function WasteStore() {
     console.log("Área seleccionada:", area);
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setValidationErrorMessage(''); // limpiar errores previos
 
@@ -66,21 +66,23 @@ export default function WasteStore() {
       validate.location(dataToValidate.location);
 
       // si todo es correcto, guardamos los datos del residuo
-      const wasteData = {
+      const newStoredWaste = {
         code: dataToValidate.code,
         name: dataToValidate.name,
         container: dataToValidate.container,
         containerColor: selectedContainer.color,
         weight: parseFloat(dataToValidate.weight),
-        month: parseInt(dataToValidate.month),
-        year: parseInt(dataToValidate.year),
+        month: dataToValidate.month,
+        year: dataToValidate.year,
         status: dataToValidate.status,
         location: dataToValidate.location
       };
 
+      await createNewStoredWaste(newStoredWaste); // fetch a la API para crear el residuo almacenado
+
       // guardamos el residuo en el estado
-      setLastStoredWaste(wasteData);
-      console.log("Datos del formulario validados y listos:", wasteData);
+      setLastStoredWaste(newStoredWaste);
+      console.log("Datos del formulario validados y listos:", newStoredWaste);
 
       // setSelectedWaste(null);
       // setSelectedContainer(null);
