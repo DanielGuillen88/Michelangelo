@@ -1,63 +1,36 @@
-import { db } from "../../firebase";
-import validate from "com/validation/validateWaste";
-import { applyLocationFilters } from "../../utils/applyLocationFilters";
+import { db } from "../../firebase.js";
+import validate from "com/validation/validateWaste.js";
+import { applyLocationFilters } from "../../utils/applyLocationFilters.js";
+import { SystemError } from "com/errors/errors.js";
 
 const wasteCollection = db.collection('waste');
 
-export default async function getWasteCustom(req, res, next) { //obtener residuos con filtros personalizados
-
+export default async function getWasteCustom(req, res, next) {
     try {
         const { code, container, status, month, year, locationType, locationArea, locationReference } = req.query;
 
-        let query = wasteCollection;    // 1. Iniciar la consulta de Firestore
-
-        // 2. Aplicar validaciones y añadir cláusulas .where() dinámicamente
-        if (code) {    // Validar y aplicar 'code'
-            try {
-            validate.code(code);
-            } catch (validationError) {
-            return next(validationError);
-            }
-            query = query.where('code', '==', code);
+        // 1. Validamos solicitudes
+        try {
+            if (code) validate.code(code);
+            if (container) validate.container(container);
+            if (status) validate.status(status);
+            if (month) validate.month(month);
+            if (year) validate.year(year);
+        } catch (validationError) {
+            return next(validationError); // Devolver un error de validación
         }
 
-        if (container) {    // Validar y aplicar 'container'
-            try {
-            validate.container(container);
-            } catch (validationError) {
-                return next(validationError);
-            }
-            query = query.where('container', '==', container);
-        }
+        let query = wasteCollection;
 
-        if (status) {    // Validar y aplicar 'status'
-            try {
-            validate.status(status);
-            } catch (validationError) {
-                return next(validationError);
-            }
-            query = query.where('status', '==', status);
-        }
+        // 2. Aplicar filtro .where() dinámicamente
+        if (code) query = query.where('code', '==', code);
+        if (container) query = query.where('container', '==', container);
+        if (status) query = query.where('status', '==', status);
+        if (month) query = query.where('month', '==', month);
+        if (year) query = query.where('year', '==', year);
 
-        if (month) {     // Validar y aplicar 'month'
-            try {
-            validate.month(month);
-            } catch (validationError) {
-                return next(validationError);
-            }
-            query = query.where('month', '==', month);
-        }
-
-        if (year) {     // Validar y aplicar 'year'
-            try {
-            validate.year(year);
-            } catch (validationError) {
-                return next(validationError);
-            }
-            query = query.where('year', '==', year);
-        }
-
-        if (locationType) { // externalizamos consulta y filtrado de ubicacion
+        // 3. Aplicar los filtros de ubicación
+        if (locationType) {
             try {
                 query = applyLocationFilters(query, locationType, locationArea, locationReference);
             } catch (validationError) {
@@ -65,23 +38,27 @@ export default async function getWasteCustom(req, res, next) { //obtener residuo
             }
         }
 
-        const querySnapshot = await query.get();     // 3. Ejecutar la consulta en Firestore
+        const querySnapshot = await query.get();
 
-        if (querySnapshot.empty) {     // 4. Manejar resultados
+        if (querySnapshot.empty) {
             console.log(`❌ No se encontraron residuos con los filtros proporcionados ❌`);
-            return res.status(200).json([]); // Devolver un array vacío si no hay resultados
+            return res.status(200).json([]);
         }
 
-        const wasteList = querySnapshot.docs.map(doc => ({    // 5. Mapear los documentos obtenidos
+        const wasteList = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
         }));
 
-        console.log(`Residuos encontrados:`, wasteList);    // 6. Respuesta exitosa
-        
+        console.log(`Residuos encontrados:`, wasteList);
+
         return res.status(200).json(wasteList);
     } catch (error) {
-    console.error('Error al obtener residuos personalizados:', error);
-    next(error);
+        console.error('Error al obtener residuos solicitados:', error);
+        // Si el error es de un índice faltante, Firestore lo indicará en el mensaje
+        if (error.message.includes("The query requires an index")) {
+            return next(new SystemError(`❌ Error de consulta: ${error.message}. Por favor, crea el índice necesario en Firestore.`));
+        }
+        next(error);
     }
 };
