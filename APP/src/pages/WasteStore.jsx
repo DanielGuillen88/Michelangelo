@@ -7,6 +7,7 @@ import WarehouseAreaSelect from "../components/WarehouseAreaSelect";
 import { Card, Container, Button, Row, Col } from "react-bootstrap";
 import createNewStoredWaste from "../services/waste/createNewStoredWaste.js";
 import validate from 'com/validation/validateWaste.js';
+import StoredWasteAreaList from "../components/StoredWaste/StoredWasteAreaList.jsx";
 
 export default function WasteStore() {
   const [selectedWaste, setSelectedWaste] = useState(null);
@@ -169,6 +170,10 @@ export default function WasteStore() {
           </Card.Body>
         </Card>
       )}
+
+    <StoredWasteAreaList/>
+
     </Container>
+
   );
 }
