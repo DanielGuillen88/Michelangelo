@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Container className="mt-5">
+      <Container className="mt-2">
         
         <Header/>
 

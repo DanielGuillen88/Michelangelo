@@ -102,7 +102,7 @@ export default function WasteStore() {
   const colorBorder = selectedContainer ? `border-${selectedContainer.color}-subtle` : 'border-light-subtle';
 
   return (
-    <Container className="p-1">
+    <Container className="my-2 p-0">
       <Card className={`border-3 ${colorBorder} ${bgColorForm}`}>
         <Card.Body className="p-0">
           <Col xs={12} className="d-flex justify-content-center flex-column align-items-center">

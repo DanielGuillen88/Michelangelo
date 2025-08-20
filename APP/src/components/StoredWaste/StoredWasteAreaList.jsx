@@ -117,12 +117,11 @@ export default function StoredWasteAreaList() {
             let cardColorStyle = {}; // estilos mas personalizados si es necesario
 
             if (colChar === 'A') {
-              cardColorClass = 'border-light-subtle bg-secondary-subtle';
+              cardColorClass = ' border-dark-subtle bg-dark-subtle';
             } else if (colChar === 'B') {
-              // Se utiliza un estilo en línea para el color "pink"
-              cardColorClass = ' border-light-subtle bg-light-subtle';
+              cardColorClass = 'border-secondary-subtle bg-secondary-subtle';
             } else if (colChar === 'C') {
-              cardColorClass = 'border-light-subtle bg-secondary-subtle';
+              cardColorClass = ' border-dark-subtle bg-dark-subtle';
             }
             
             const areaDataWithColor = { ...areaData, colorClass: cardColorClass, colorStyle: cardColorStyle };

@@ -10,12 +10,13 @@ export default function StoredWasteAreaModal({ show, handleClose, selectedArea }
     // <Modal className={`bg-light ${modalColorClass}`} style={{borderColor: modalColorStyle.borderColor}} show={show} onHide={handleClose} scrollable dialog>
     <Modal show={show} onHide={handleClose} scrollable dialog>
         
-        {/* <Modal.Header closeButton className={`bg-light ${modalColorClass}`} style={{borderColor: modalColorStyle.borderColor}}> */}
-        <Modal.Header className={`bg-light ${modalColorClass}`} style={{borderColor: modalColorStyle.borderColor}} closeButton>
+        <Modal.Header closeButton className={`bg-light ${modalColorClass}`} style={{borderColor: modalColorStyle.borderColor}}>
+        {/* <Modal.Header closeButton> */}
           <Modal.Title>Residuos en Área {selectedArea?.area}: {selectedArea?.totalWeight.toFixed()} Kg</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body className={`bg-light ${modalColorClass}`} style={{borderColor: modalColorStyle.borderColor}}>
+        {/* <Modal.Body className={`bg-light ${modalColorClass}`} style={{borderColor: modalColorStyle.borderColor}}> */}
+        <Modal.Body>
           {selectedArea && selectedArea.wasteItems.length > 0 ? (
             <Table striped bordered hover responsive size="sm">
               <thead>
