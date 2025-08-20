@@ -11,3 +11,7 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 0px;
 }
+
+.area-card:hover {
+  border-color: var(--bs-dark) !important;
+}

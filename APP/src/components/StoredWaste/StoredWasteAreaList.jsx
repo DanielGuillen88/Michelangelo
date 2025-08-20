@@ -34,6 +34,8 @@ export default function StoredWasteAreaList() {
     fetchWaste();
   }, []);
 
+  // ordenamos los residuos por área y sumamos los pesos 
+
   const processWasteByArea = () => {
     const processedData = {};
     const warehouseAreas = [
@@ -41,7 +43,7 @@ export default function StoredWasteAreaList() {
       'B1', 'B2', 'B3', 'B4',
       'C1', 'C2', 'C3', 'C4'
     ];
-    
+  
     warehouseAreas.forEach(area => {
       processedData[area] = {
         area: area,
@@ -105,36 +107,39 @@ export default function StoredWasteAreaList() {
   return (
     <Container className="mt-3 text-center">
       <h2>Residuos Almacenados por Área</h2>
-      <Row className="mb-1">
-        {columnHeaders.map((header, index) => (
-          <Col key={index} className="text-center fw-bold fs-4">
-            Área {header}
-          </Col>
-        ))}
-      </Row>
       {rowNumbers.map(rowNum => (
         <Row key={rowNum} className="mb-1">
           {columnHeaders.map(colChar => {
             const area = `${colChar}${rowNum}`;
             const areaData = processedWaste[area];
+            
+            let cardColorClass = '';
+            let cardColorStyle = {}; // estilos mas personalizados si es necesario
+
+            if (colChar === 'A') {
+              cardColorClass = 'border-light-subtle bg-secondary-subtle';
+            } else if (colChar === 'B') {
+              // Se utiliza un estilo en línea para el color "pink"
+              cardColorClass = ' border-light-subtle bg-light-subtle';
+            } else if (colChar === 'C') {
+              cardColorClass = 'border-light-subtle bg-secondary-subtle';
+            }
+            
+            const areaDataWithColor = { ...areaData, colorClass: cardColorClass, colorStyle: cardColorStyle };
+
             return (
               <Col key={area}>
                 <Card 
-                  onClick={() => handleShow(areaData)}
-                  style={{ cursor: 'pointer' }}
+                  onClick={() => handleShow(areaDataWithColor)}
+                  className={`border border-3 ${cardColorClass} area-card`}
+                  style={{ cursor: 'pointer', ...cardColorStyle }}
                 >
                   <Card.Body className="d-flex p-0 flex-column text-center">
                     <div>
-                      <Card.Title>{area}</Card.Title>
                       <Card.Text>
-                        {areaData.wasteItems.map(item => item.code).join(', ') || 'N/A'}
+                        <b>{area}:</b> {areaData.wasteItems.map(item => item.code).join(', ') || `Ningún residuo almacenado`}
                       </Card.Text>
                     </div>
-                    {/* <div className="text-center">
-                      <span className="fw-bold fs-5">
-                        {areaData.totalWeight.toFixed()} Kg
-                      </span>
-                    </div> */}
                   </Card.Body>
                 </Card>
               </Col>
@@ -143,46 +148,7 @@ export default function StoredWasteAreaList() {
         </Row>
       ))}
 
-      {/* <Modal show={showModal} onHide={handleClose} scrollable>
-        <Modal.Header closeButton>
-          <Modal.Title>Detalles de Residuos en Área {selectedArea?.area}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedArea && selectedArea.wasteItems.length > 0 ? (
-            <Table striped bordered hover responsive size="sm">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Nombre</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedArea.wasteItems.map((wasteItem, index) => (
-                  <tr key={index}>
-                    <td>{wasteItem.code}</td>
-                    <td>{wasteItem.name}</td>
-                    <td>{wasteItem.totalWeight.toFixed()}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          ) : (
-            <p>No hay residuos almacenados en esta área.</p>
-          )}
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-between">
-          <span className="fw-bold fs-5">
-            Total: {selectedArea?.totalWeight.toFixed()} Kg
-          </span>
-          <button className="btn btn-secondary" onClick={handleClose}>
-            Cerrar
-          </button>
-        </Modal.Footer>
-      </Modal> */}
-
-    <StoredWasteAreaModal show={showModal} handleClose={handleClose} selectedArea={selectedArea} />
-
+      <StoredWasteAreaModal show={showModal} handleClose={handleClose} selectedArea={selectedArea} />
     </Container>
   );
 };
